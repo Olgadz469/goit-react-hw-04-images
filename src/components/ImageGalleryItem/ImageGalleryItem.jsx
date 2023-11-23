@@ -6,7 +6,7 @@ export function ImageGalleryItem({ image }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
-    setIsModalOpen(({ isModalOpen }) => ({ isModalOpen: !isModalOpen }));
+    setIsModalOpen(prevModal => !prevModal);
   };
 
   return (

@@ -16,35 +16,36 @@ export function App() {
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    if (searchName) {
-      const addImages = async () => {
-        try {
-          setIsLoading(true);
-
-          const data = await API.getImages(searchName, currentPage);
-
-          if (data.hits.length === 0) {
-            return toast.info('Sorry image not found...', {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-          }
-
-          const normalizedImages = API.normalizedImages(data.hits);
-
-          setImages(prevImages => [...prevImages, ...normalizedImages]);
-          setIsLoading(false);
-          setError('');
-          setTotalPages(Math.ceil(data.totalHits / 12));
-        } catch {
-          setError('Something went wrong!');
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      addImages();
+    if (searchName === '') {
+      return;
     }
-  }, [searchName, currentPage, error]);
+    async function addImages() {
+      try {
+        setIsLoading(true);
+
+        const data = await API.getImages(searchName, currentPage);
+
+        if (data.hits.length === 0) {
+          return toast.info('Sorry image not found...', {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
+
+        const normalizedImages = API.normalizedImages(data.hits);
+
+        setImages(prevImages => [...prevImages, ...normalizedImages]);
+        setIsLoading(false);
+        setError(null);
+        setTotalPages(Math.ceil(data.totalHits / 12));
+      } catch (error) {
+        setError('Something went wrong!');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    addImages();
+  }, [searchName, currentPage]);
 
   const loadMore = () => {
     setCurrentPage(prevPage => prevPage + 1);
@@ -61,9 +62,10 @@ export function App() {
       <SearchBar onSubmit={handleSubmit} />
       {images.length > 0 && <ImageGallery images={images} />}
       {isLoading && <Loader />}
-      {images.length > 0 && totalPages !== currentPage && !isLoading && (
-        <Button onClick={loadMore} />
-      )}
+      {images.length > 0 &&
+        totalPages !== currentPage &&
+        !isLoading &&
+        !error && <Button onClick={loadMore} />}
     </div>
   );
 }

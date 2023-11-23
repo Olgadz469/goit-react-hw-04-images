@@ -6,13 +6,12 @@ export function SearchBar({ onSubmit }) {
   const [searchName, setSearchName] = useState('');
 
   const handleChange = event => {
-    setSearchName(event.currentTarget.value);
+    setSearchName(event.target.value);
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    const searchQuery = searchName;
-    onSubmit(searchQuery);
+    onSubmit(searchName);
     setSearchName('');
   };
 
@@ -28,7 +27,7 @@ export function SearchBar({ onSubmit }) {
           className={css.input}
           name="searchName"
           type="text"
-          id="search"
+          // id="search"
           value={searchName}
           onChange={handleChange}
         />
