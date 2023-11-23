@@ -21,7 +21,6 @@ export function Modal({ onClose, largeImageURL, tags }) {
     }
   };
 
-  // const { largeImageURL, tags } = this.props;
   return (
     <div className={css.Overlay} onClick={handleBackdropClick}>
       <div className={css.Modal}>

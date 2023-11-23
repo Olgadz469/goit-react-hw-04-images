@@ -9,8 +9,6 @@ export function ImageGalleryItem({ image }) {
     setIsModalOpen(({ isModalOpen }) => ({ isModalOpen: !isModalOpen }));
   };
 
-  // const { isModalOpen } = this.state;
-  // const { image } = this.props;
   return (
     <>
       <li className={css.ImageGalleryItem}>
@@ -25,7 +23,7 @@ export function ImageGalleryItem({ image }) {
           <Modal
             largeImageURL={image.largeImageURL}
             alt={image.tags}
-            onClose={this.toggleModal}
+            onClose={toggleModal}
           />
         )}
       </li>
